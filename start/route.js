@@ -288,23 +288,20 @@ app.use("/api", express
 
 const port = process.env.PORT || 8080;
 
-// async function main() {
-//   try {
-//     app.listen(port, () => {
-//       console.log(`> Server started on port ${port}`);
-//     });
-//     await prisma.$disconnect()
-//   } catch (e) {
-//     console.log(e);
-//     await prisma.$disconnect()
-//   }
-// }
+async function main() {
+  try {
+    app.listen(port, () => {
+      console.log(`> Server started on port ${port}`);
+    });
+    await prisma.$disconnect()
+  } catch (e) {
+    console.log(e);
+    await prisma.$disconnect()
+  }
+}
 
-// main()
-//   .then()
-//   .catch()
-app.listen(port, () => {
-  console.log(`> Server started on port ${port}`);
-});
+main()
+  .then()
+  .catch()
 
 module.exports = app;
