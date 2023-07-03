@@ -23,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.all("/", (req, res) => res.redirect(302, "/track"))
 
 app.get("/track", async (req, res) => {
+  if ("tracking_code" in req.query) {
+    console.log("> Transaction number: " + req.query['transaction_code'])
+  }
   res.render("track", { layout: "layouts/default" })
 });
 
