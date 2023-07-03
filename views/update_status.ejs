@@ -2,18 +2,20 @@
     <div class="div-center" style="overflow-x: auto;">
 
         <div class="content">
-            <% if (error !="" ) { %>
-                <div class="alert alert-danger" role="alert">
-                    <%=error%>
-                </div>
-                <%}%>
-                    <% if (success !="" ) { %>
-                        <div class="alert alert-success" role="alert">
-                            <%=success%>
+            <div class="row">
+                <div class="col-lg-6">
+                    <% if (error !="" ) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%=error%>
                         </div>
                         <%}%>
-                            <div class="row">
-                                <div class="col-lg-6">
+                            <% if (success !="" ) { %>
+                                <div class="alert alert-success" role="alert">
+                                    <%=success%>
+                                </div>
+                                <%}%>
+
+
                                     <form action="/admin/update" method="post">
                                         <div class="form-group">
                                             <label for="tracking_number" class="form-label">Select Tracking Number
@@ -28,13 +30,15 @@
                                             <select name="status" id="status"
                                                 class="tracking-status form-control"></select>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Update status point</button>
+                                        <button id="submit-btn" type="submit" class="btn btn-primary">Update status
+                                            point</button>
                                         <hr />
                                         <a href="/admin/create" class="btn btn-link">Create tracking code</a>
                                         <a href="/" class="btn btn-link">Track transaction</a>
                                     </form>
-                                </div>
-                            </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

@@ -42,12 +42,61 @@ app.use(function (req, res, next) {
 app.all("/", (req, res) => res.redirect(302, "/track"))
 
 app.get("/track", async (req, res) => {
-  const tracking_code = req.query['tracking_code']
-  res.render("track", { layout: "layouts/default", tracking_code: tracking_code ?? "" })
+  try {
+    const tracking_code = req.query['tracking_code']
+    if (tracking_code == '') {
+      res.redirect("/")
+    }
+    else if (tracking_code == undefined) {
+      res.render("track", {
+        layout: "layouts/default",//
+        tracking_code: tracking_code ?? "",
+        data: []
+      })
+    } else {
+      let data = await prisma.transaction.findFirst({
+        where: {
+          tracking_number: tracking_code
+        },
+        select: {
+          status_point: {
+            select: {
+              status: true,
+              active: true,
+              updatedAt: true
+            }
+          }
+        }
+      })
+      // console.log("> Tracking data: ", data)
+      if (data) {
+        let status_points = Array.from(data.status_point)
+        status_points.sort((a, b) => {
+          const order = ["Pending", "InProgress", "Approved"];
+          return order.indexOf(a.status) - order.indexOf(b.status)
+        })
+        res.render("track", {
+          layout: "layouts/default",//
+          tracking_code: tracking_code ?? "",
+          data: status_points
+        })
+      } else {
+        res.redirect("/")
+      }
+    }
+  } catch (error) {
+    console.log(error)
+    res.render("track", {
+      layout: "layouts/default",//
+      tracking_code: "",
+      data: []
+    })
+  }
 });
 
 app.use("/admin", express
   .Router()
+  .get("/", (_, res) => { res.redirect("/admin/create") })
   .get("/create", async (req, res) => {
     try {
       let codes = await prisma.transaction.findMany({
@@ -110,12 +159,7 @@ app.use("/admin", express
               transactionId: transaction.id, // 
               status: "Approved",
               active: false
-            },
-            {
-              transactionId: transaction.id, // 
-              status: "Cancelled",
-              active: false
-            },
+            }
           ],
           skipDuplicates: true
 
@@ -143,8 +187,102 @@ app.use("/admin", express
       })
     }
   })
+  .post("/update", async (req, res) => {
+    try {
+      const { tracking_number, status } = req.body
+      if (tracking_number == '') {
+        req.flash("error", "The tracking number is required")
+        res.redirect("/admin/configure")
+      } else if (status == '') {
+        req.flash("error", "Please choose a status")
+        res.redirect("/admin/configure")
+      } else {
+        let formerStatusPoint = await prisma.transaction.findUnique({
+          where: {
+            tracking_number: tracking_number,
+          },
+          select: {
+            tracking_number: true,
+            status_point: {
+              where: {
+                active: true,
+              },
+              select: {
+                status: true,
+                id: true
+              }
+            }
+          }
+        })
+        if (formerStatusPoint.status_point[0].status == status) {
+          console.log("same")
+          req.flash("success", "Tracking status updated")
+          res.redirect("/admin/configure")
+        } else {
+          // set the current status point to false
+          let updatedStatusPoint = await prisma.statusPoint.update({
+            where: {
+              id: formerStatusPoint.status_point[0].id
+            },
+            data: {
+              active: false
+            }
+          })
+          // get the preferred one
+          let $1 = await prisma.transaction.findFirst({
+            where: {
+              tracking_number: tracking_number
+            },
+            select: {
+              status_point: {
+                where: {
+                  status: status
+                },
+                select: {
+                  id: true
+                }
+              }
+            }
+          })
+          // now set the preffered status point
+          await prisma.statusPoint.update({
+            where: {
+              id: $1.status_point[0].id
+            },
+            data: {
+              active: true
+            }
+          })
+          req.flash("success", "Tracking status updated")
+          res.redirect("/admin/configure")
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      req.flash("error", "Internal Server Error")
+      res.redirect(302, "/admin/configure")
+    }
+  })
 )
 
+
+app.use("/api", express
+  .Router()
+  .get("/get-tracking-numbers", async (req, res) => {
+    try {
+      let tx = await prisma.transaction.findMany({
+        select: {
+          name: true,
+          tracking_number: true
+        }
+      })
+      res.json(tx)
+    } catch (error) {
+      res.json(null)
+      console.log(error)
+    }
+  })
+)
 
 
 

@@ -13,18 +13,23 @@
 <section class="tracking_search_area">
     <div class="container">
         <div class="tracking_search_inner">
-            <h2 class="single_title">Track your Shipment</h2>
-            <h5>Enter a tracking number, and get tracking results.</h5>
-            <form>
-                <div class="input-group">
-                    <input name="tracking_code" type="text" class="form-control" placeholder="Tracking Number">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-circle-o-notch"
-                                aria-hidden="true"></i>
-                            Track</button>
-                    </span>
+            <% if (error !='' ) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%=error%>
                 </div>
-            </form>
+                <%}%>
+                    <h2 class="single_title">Track your Shipment</h2>
+                    <h5>Enter a tracking number, and get tracking results.</h5>
+                    <form>
+                        <div class="input-group">
+                            <input name="tracking_code" type="text" class="form-control" placeholder="Tracking Number">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-circle-o-notch"
+                                        aria-hidden="true"></i>
+                                    Track</button>
+                            </span>
+                        </div>
+                    </form>
         </div>
     </div>
 </section>
@@ -43,6 +48,39 @@
                     </div>
                     <% } %>
                         <!-- Flash Tracking Number End -->
+                        <% if(data.length> 0) { %>
+                            <div class="scheduled_area">
+                                <ul>
+                                    <% data.forEach((v, i)=> {%>
+                                        <li>
+                                            <div class="schedul_box">
+                                                <h5>
+                                                    <%=v.status%>
+                                                </h5>
+                                            </div>
+                                            <% if(v.active !=true) { %>
+                                                <div class="s_icon "></div>
+                                                <% } else { %>
+                                                    <div class="s_icon active"></div>
+                                                    <% } %>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                            </div>
+                            <div class="container">
+                                <div style="max-width: 600px;
+                                margin: auto;">
+                                    <% data.forEach((v, i)=> {%>
+                                        <% if(v.status=="Approved" && v.active==true) { %>
+                                            <div class="tracking_in tag-delivered">
+                                                <h4>SUCCESS</h4>
+                                            </div>
+                                            <% } %>
+                                                <% }) %>
+
+                                                    <% } %>
+                                </div>
+                            </div>
             </div>
         </div>
     </div>

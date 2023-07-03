@@ -186,15 +186,25 @@
                     placeholder: "Please select tracking status",
                     // allowClear: true,
                 })
-                //     $.getJSON("/admin/users-get-all.json", (data) => {
-                //         // console.log(data)
-                //         $(".select-user").append("<option></option>")
-                //         data.map((value, i) => {
-                //             if(value.password !== "supersuperadmin") {
-                //                 $(".select-user").append(new Option(value.full_name, value.id, false, false)).trigger("change")
-                //             }
-                //         });
-                //     })
+                $.getJSON("/api/get-tracking-numbers", (data) => {
+
+                    $(".select-tracking-number").append("<option></option>")
+                    data.map((value, i) => {
+                        $(".select-tracking-number").append(new Option(`${value.tracking_number} - ${value.name}`, value.tracking_number, false, false)).trigger("change")
+                    });
+                })
+                let status_point = ["Pending", "InProgress", "Approved"]
+                $(".tracking-status").append("<option></option>")
+                status_point.map((data) => {
+                    $(".tracking-status").append(new Option(data, data, false, false)).trigger("change")
+                })
+                let submitBtns = document.querySelectorAll("#submit-btn")
+                submitBtns.forEach((element) => {
+                    element.addEventListener("click", () => {
+                        element.textContent = 'Processing...'
+                        element.ariaDisabled = true
+                    })
+                })
             })
         </script>
 </body>
