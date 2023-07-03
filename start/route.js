@@ -20,9 +20,11 @@ app.set("views", path.join(process.cwd(), "views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.all("/", (req, res) => res.redirect(302, "/"))
+app.all("/", (req, res) => res.redirect(302, "/track"))
 
-app.get("/", async (req, res) => { });
+app.get("/track", async (req, res) => {
+  res.render("track", { layout: "layouts/default" })
+});
 
 const port = process.env.PORT || 8080;
 
