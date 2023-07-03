@@ -35,10 +35,14 @@
         <div class="timeline_tracking_inner">
             <div class="timeline_tracking_box">
                 <!-- Flash Tracking Number Start -->
-                <div class="tracking_head">
-                    <h4>UM459056399US</h4>
-                </div>
-                <!-- Flash Tracking Number End -->
+                <% if(tracking_code ) { %>
+                    <div class="tracking_head">
+                        <h4>
+                            <%=tracking_code%>
+                        </h4>
+                    </div>
+                    <% } %>
+                        <!-- Flash Tracking Number End -->
             </div>
         </div>
     </div>
