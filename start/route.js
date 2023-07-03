@@ -20,7 +20,9 @@ app.set("views", path.join(process.cwd(), "views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async (req, res) => {});
+app.all("/", (req, res) => res.redirect(302, "/"))
+
+app.get("/", async (req, res) => { });
 
 const port = process.env.PORT || 8080;
 
