@@ -45,6 +45,15 @@ app.get("/track", async (req, res) => {
   res.render("track", { layout: "layouts/default", tracking_code: tracking_code ?? "" })
 });
 
+app.use("/admin", express
+  .Router()
+  .get("/create", (req, res) => {
+    res.render("create_code", {
+      layout: "layouts/admin",//
+      title: "Create Tracking Code"
+    })
+  }))
+
 
 const port = process.env.PORT || 8080;
 
