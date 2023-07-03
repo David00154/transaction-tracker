@@ -1,0 +1,40 @@
+<div class="back">
+    <div class="div-center" style="overflow-x: auto;">
+
+        <div class="content">
+            <% if (error !="" ) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%=error%>
+                </div>
+                <%}%>
+                    <% if (success !="" ) { %>
+                        <div class="alert alert-success" role="alert">
+                            <%=success%>
+                        </div>
+                        <%}%>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form action="/admin/update" method="post">
+                                        <div class="form-group">
+                                            <label for="tracking_number" class="form-label">Select Tracking Number
+                                            </label>
+                                            <select name="tracking_number" id="tracking_number"
+                                                class="select-tracking-number form-control"></select>
+                                        </div>
+                                        <!--  -->
+                                        <div class="form-group">
+                                            <label for="status" class="form-label">Tracking Status
+                                            </label>
+                                            <select name="status" id="status"
+                                                class="tracking-status form-control"></select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update status point</button>
+                                        <hr />
+                                        <a href="/admin/create" class="btn btn-link">Create tracking code</a>
+                                        <a href="/" class="btn btn-link">Track transaction</a>
+                                    </form>
+                                </div>
+                            </div>
+        </div>
+    </div>
+</div>

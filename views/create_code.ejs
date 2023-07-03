@@ -5,46 +5,126 @@
 
 
         <div class="content">
+            <div class="row">
+                <div class="col-lg-6">
+                    <% if (error !="" ) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%=error%>
+                        </div>
+                        <%}%>
+                            <% if (success !="" ) { %>
+                                <div class="alert alert-success" role="alert">
+                                    <%=success%>
+                                </div>
+                                <%}%>
+                                    <!-- <div class="row"> -->
 
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Identification name">
+                                    <form method="post" action="/admin/generate_code">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                placeholder="Identification name">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Generate code</button>
+
+                                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary">Generate code</button>
+            </div>
 
-            </form>
 
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <div class="table-content">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">Current</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% tracking_code.forEach((v, i)=> { %>
+                            <tr>
+                                <th scope="row">
+                                    <%=v.tracking_number%>
+                                </th>
+                                <td>
+                                    <%=v.name%>
+                                </td>
+                                <td>
+                                    <%=v.status_point[0].status%>
+                                </td>
+                                <td>
+                                    <script>
+                                        function buildFormaedDate(val) {
+                                            const dateString = val;
+
+                                            // Create a Date object from the string
+                                            const dateObject = new Date(dateString);
+
+                                            // Extract the date
+                                            const year = dateObject.getFullYear();
+                                            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+                                            const day = String(dateObject.getDate()).padStart(2, '0');
+
+                                            // Extract the time
+                                            const hours = String(dateObject.getHours()).padStart(2, '0');
+                                            const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+                                            const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+
+                                            // Create the date-only string in "YYYY-MM-DD" format
+                                            const dateOnly = `${year}/${month}/${day}`;
+
+                                            // Create the time-only string in "HH:MM:SS" format
+                                            const timeOnly = `${hours}:${minutes}:${seconds}`;
+                                            return { timeOnly, dateOnly }
+                                        }
+                                        document.write(`${buildFormaedDate("<%=v.status_point[0].createdAt %>").dateOnly} ${buildFormaedDate("<%=v.status_point[0].createdAt %>").timeOnly}`)
+                                    </script>
+                                </td>
+                                <td>
+                                    <script>
+                                        function buildFormaedDate(val) {
+                                            const dateString = val;
+
+                                            // Create a Date object from the string
+                                            const dateObject = new Date(dateString);
+
+                                            // Extract the date
+                                            const year = dateObject.getFullYear();
+                                            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+                                            const day = String(dateObject.getDate()).padStart(2, '0');
+
+                                            // Extract the time
+                                            const hours = String(dateObject.getHours()).padStart(2, '0');
+                                            const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+                                            const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+
+                                            // Create the date-only string in "YYYY-MM-DD" format
+                                            const dateOnly = `${year}/${month}/${day}`;
+
+                                            // Create the time-only string in "HH:MM:SS" format
+                                            const timeOnly = `${hours}:${minutes}:${seconds}`;
+                                            return { timeOnly, dateOnly }
+                                        }
+                                        document.write(`${buildFormaedDate("<%=v.status_point[0].updatedAt %>").dateOnly} ${buildFormaedDate("<%=v.status_point[0].updatedAt %>").timeOnly}`)
+                                    </script>
+                                </td>
+
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <!-- <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr> -->
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 
