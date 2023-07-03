@@ -47,11 +47,22 @@ app.get("/track", async (req, res) => {
 
 app.use("/admin", express
   .Router()
-  .get("/create", (req, res) => {
-    res.render("create_code", {
-      layout: "layouts/admin",//
-      title: "Create Tracking Code"
-    })
+  .get("/create", async (req, res) => {
+    try {
+
+      res.render("create_code", {
+        layout: "layouts/admin",//
+        title: "Create Tracking Code",
+        tracking_code: []
+      })
+    } catch (error) {
+      console.log(error)
+      res.render("create_code", {
+        layout: "layouts/admin",//
+        title: "Create Tracking Code",
+        tracking_code: []
+      })
+    }
   }))
 
 
