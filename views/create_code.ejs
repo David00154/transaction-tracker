@@ -25,6 +25,18 @@
                                             <input type="text" class="form-control" id="name" name="name"
                                                 placeholder="Identification name">
                                         </div>
+                                        <!--  -->
+                                        <div class="form-group">
+                                            <label for="reciever">Reciever</label>
+                                            <input type="text" class="form-control" id="reciever" name="reciever"
+                                                placeholder="Transaction reciever">
+                                        </div>
+                                        <!--  -->
+                                        <div class="form-group">
+                                            <label for="amount">Amount</label>
+                                            <input type="text" class="form-control" id="amount" name="amount"
+                                                placeholder="Transaction amount">
+                                        </div>
                                         <button id="submit-btn" type="submit" class="btn btn-primary">Generate
                                             code</button>
                                         <a href="/admin/configure" class="btn btn-link">Update tracking status</a>
@@ -41,80 +53,90 @@
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Start</th>
-                            <th scope="col">Current</th>
+                            <th scope="col">Reciever</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Session Id</th>
+                            <!-- <th scope="col">Current</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <% tracking_code.forEach((v, i)=> { %>
                             <tr>
-                                <th scope="row">
+                                <td>
                                     <%=v.tracking_number%>
-                                </th>
+                                </td>
                                 <td>
                                     <%=v.name%>
                                 </td>
                                 <td>
                                     <%=v.status_point[0].status%>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <script>
-                                        function buildFormaedDate(val) {
-                                            const dateString = val;
+                                        // function buildFormaedDate(val) {
+                                        //     const dateString = val;
 
-                                            // Create a Date object from the string
-                                            const dateObject = new Date(dateString);
+                                        //     // Create a Date object from the string
+                                        //     const dateObject = new Date(dateString);
 
-                                            // Extract the date
-                                            const year = dateObject.getFullYear();
-                                            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-                                            const day = String(dateObject.getDate()).padStart(2, '0');
+                                        //     // Extract the date
+                                        //     const year = dateObject.getFullYear();
+                                        //     const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+                                        //     const day = String(dateObject.getDate()).padStart(2, '0');
 
-                                            // Extract the time
-                                            const hours = String(dateObject.getHours()).padStart(2, '0');
-                                            const minutes = String(dateObject.getMinutes()).padStart(2, '0');
-                                            const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+                                        //     // Extract the time
+                                        //     const hours = String(dateObject.getHours()).padStart(2, '0');
+                                        //     const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+                                        //     const seconds = String(dateObject.getSeconds()).padStart(2, '0');
 
-                                            // Create the date-only string in "YYYY-MM-DD" format
-                                            const dateOnly = `${year}/${month}/${day}`;
+                                        //     // Create the date-only string in "YYYY-MM-DD" format
+                                        //     const dateOnly = `${year}/${month}/${day}`;
 
-                                            // Create the time-only string in "HH:MM:SS" format
-                                            const timeOnly = `${hours}:${minutes}:${seconds}`;
-                                            return { timeOnly, dateOnly }
-                                        }
-                                        document.write(`${buildFormaedDate("<%=v.status_point[0].createdAt %>").dateOnly} ${buildFormaedDate("<%=v.status_point[0].createdAt %>").timeOnly}`)
+                                        //     // Create the time-only string in "HH:MM:SS" format
+                                        //     const timeOnly = `${hours}:${minutes}:${seconds}`;
+                                        //     return { timeOnly, dateOnly }
+                                        // }
+                                        // document.write(`${buildFormaedDate("<%=v.status_point[0].createdAt %>").dateOnly} ${buildFormaedDate("<%=v.status_point[0].createdAt %>").timeOnly}`)
                                     </script>
+                                </td> -->
+                                <!-- <td>
+                                    <script>
+                                        // function buildFormaedDate(val) {
+                                        //     const dateString = val;
+
+                                        //     // Create a Date object from the string
+                                        //     const dateObject = new Date(dateString);
+
+                                        //     // Extract the date
+                                        //     const year = dateObject.getFullYear();
+                                        //     const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+                                        //     const day = String(dateObject.getDate()).padStart(2, '0');
+
+                                        //     // Extract the time
+                                        //     const hours = String(dateObject.getHours()).padStart(2, '0');
+                                        //     const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+                                        //     const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+
+                                        //     // Create the date-only string in "YYYY-MM-DD" format
+                                        //     const dateOnly = `${year}/${month}/${day}`;
+
+                                        //     // Create the time-only string in "HH:MM:SS" format
+                                        //     const timeOnly = `${hours}:${minutes}:${seconds}`;
+                                        //     return { timeOnly, dateOnly }
+                                        // }
+                                        // document.write(`${buildFormaedDate("<%=v.status_point[0].updatedAt %>").dateOnly} ${buildFormaedDate("<%=v.status_point[0].updatedAt %>").timeOnly}`)
+                                    </script>
+                                </td> -->
+                                <td>
+                                    <%=v.reciever%>
                                 </td>
                                 <td>
-                                    <script>
-                                        function buildFormaedDate(val) {
-                                            const dateString = val;
-
-                                            // Create a Date object from the string
-                                            const dateObject = new Date(dateString);
-
-                                            // Extract the date
-                                            const year = dateObject.getFullYear();
-                                            const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-                                            const day = String(dateObject.getDate()).padStart(2, '0');
-
-                                            // Extract the time
-                                            const hours = String(dateObject.getHours()).padStart(2, '0');
-                                            const minutes = String(dateObject.getMinutes()).padStart(2, '0');
-                                            const seconds = String(dateObject.getSeconds()).padStart(2, '0');
-
-                                            // Create the date-only string in "YYYY-MM-DD" format
-                                            const dateOnly = `${year}/${month}/${day}`;
-
-                                            // Create the time-only string in "HH:MM:SS" format
-                                            const timeOnly = `${hours}:${minutes}:${seconds}`;
-                                            return { timeOnly, dateOnly }
-                                        }
-                                        document.write(`${buildFormaedDate("<%=v.status_point[0].updatedAt %>").dateOnly} ${buildFormaedDate("<%=v.status_point[0].updatedAt %>").timeOnly}`)
-                                    </script>
+                                    <%=v.amount%>
                                 </td>
-
+                                <td>
+                                    <%=v.session_id%>
                                 </td>
+                                <!-- </td> -->
                             </tr>
                             <% }) %>
                                 <!-- <tr>

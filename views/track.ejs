@@ -67,7 +67,7 @@
                                         <% }) %>
                                 </ul>
                             </div>
-                            <div class="container">
+                            <div class="container" style="margin-bottom: 50px;">
                                 <div style="max-width: 600px;
                                 margin: auto;">
                                     <% data.forEach((v, i)=> {%>
@@ -80,7 +80,39 @@
 
                                                     <% } %>
                                 </div>
+
                             </div>
+                            <% if (data.length> 0) { %>
+                                <div class="container">
+                                    <div class="table-content">
+                                        <table class="table">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Reciever</th>
+                                                    <th scope="col">Amount</th>
+                                                    <th scope="col">Session Id</th>
+                                                    <!-- <th scope="col">Current</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <%=details.reciever%>
+                                                    </td>
+                                                    <td>
+                                                        <%=details.amount%>
+                                                    </td>
+                                                    <td>
+                                                        <%=details.session_id%>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <% } %>
             </div>
         </div>
     </div>

@@ -21,6 +21,9 @@ model Transaction {
   id              String        @id @default(uuid())
   tracking_number String        @unique
   status_point    StatusPoint[]
+  reciever        String        @default("")
+  amount          String        @default("")
+  session_id      String        @default("")
   name            String        @default("")
 
   createdAt DateTime @default(now())

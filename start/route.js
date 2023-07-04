@@ -59,6 +59,9 @@ app.get("/track", async (req, res) => {
           tracking_number: tracking_code
         },
         select: {
+          reciever: true,
+          session_id: true,
+          amount: true,
           status_point: {
             select: {
               status: true,
@@ -78,7 +81,12 @@ app.get("/track", async (req, res) => {
         res.render("track", {
           layout: "layouts/default",//
           tracking_code: tracking_code ?? "",
-          data: status_points
+          data: status_points,
+          details: {
+            reciever: data.reciever,
+            amount: data.amount,
+            session_id: data.session_id,
+          }
         })
       } else {
         res.redirect("/")
@@ -102,6 +110,9 @@ app.use("/admin", express
       let codes = await prisma.transaction.findMany({
         select: {
           name: true,
+          reciever: true,
+          session_id: true,
+          amount: true,
           tracking_number: true,
           status_point: {
             where: {
@@ -131,16 +142,25 @@ app.use("/admin", express
   })
   .post("/generate_code", async (req, res, next) => {
     try {
-      const { name } = req.body
+      const { name, reciever, amount } = req.body
       if (name == "" || name == undefined) {
         req.flash("error", "The identification name is required")
+        res.redirect(302, "/admin/create")
+      } else if (reciever == "" || reciever == undefined) {
+        req.flash("error", "Reciever is required")
+        res.redirect(302, "/admin/create")
+      } else if (amount == "" || amount == undefined) {
+        req.flash("error", "Amount is required")
         res.redirect(302, "/admin/create")
       } else {
         const trackingCode = generateTrackingCode();
         let transaction = await prisma.transaction.create({
           data: {
             tracking_number: trackingCode,
-            name
+            name,
+            reciever,
+            amount,
+            session_id: Math.floor(Math.random() * 100000000000000).toString()
           }
         })
         let status_point = await prisma.statusPoint.createMany({
