@@ -16,7 +16,7 @@
                                 <%}%>
 
 
-                                    <form action="/admin/update" method="post">
+                                    <form action="/admin/update_amount" method="post">
                                         <div class="form-group">
                                             <label for="tracking_number" class="form-label">Select Tracking Number
                                             </label>
@@ -25,16 +25,16 @@
                                         </div>
                                         <!--  -->
                                         <div class="form-group">
-                                            <label for="status" class="form-label">Tracking Status
-                                            </label>
-                                            <select name="status" id="status"
-                                                class="tracking-status form-control"></select>
+                                            <label for="amount">Amount</label>
+                                            <input type="text" class="form-control" id="amount" name="amount"
+                                                placeholder="Enter new amount">
                                         </div>
-                                        <button id="submit-btn" type="submit" class="btn btn-primary">Update status
-                                            point</button>
+                                        <!--  -->
+                                        <button id="submit-btn" type="submit" class="btn btn-primary">Update
+                                            amount</button>
                                         <hr />
                                         <a href="/admin/create" class="btn btn-link">Create tracking code</a>
-                                        <a href="/admin/configure" class="btn btn-link">Update tracking status</a>
+                                        <a href="/" class="btn btn-link">Track transaction</a>
                                     </form>
                 </div>
 

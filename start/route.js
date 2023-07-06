@@ -283,6 +283,49 @@ app.use("/admin", express
       res.redirect(302, "/admin/configure")
     }
   })
+  .get("/update-amount", async (req, res) => {
+    try {
+      res.render("update_amount", {
+        layout: "layouts/admin",//
+        title: "Update Transaction amount",
+        tracking_code: codes
+      })
+    } catch (error) {
+      res.render("update_amount", {
+        layout: "layouts/admin",//
+        title: "Update Transaction amount",
+      })
+    }
+
+  })
+  .post("/update_amount", async (req, res) => {
+    try {
+      const { tracking_number, amount } = req.body
+      if (tracking_number == '') {
+        req.flash("error", "The tracking number is required")
+        res.redirect("/admin/update-amount")
+      } else if (amount == '') {
+        req.flash("error", "Please enter an amount")
+        res.redirect("/admin/update-amount")
+      } else {
+        await prisma.transaction.update({
+          where: {
+            tracking_number: tracking_number
+          },
+          data: {
+            amount
+          }
+        })
+        req.flash("success", "Amount updated")
+        res.redirect("/admin/update-amount")
+      }
+    } catch (error) {
+      console.log(error)
+      req.flash("error", "Internal Server Error")
+      res.redirect(302, "/admin/update-amount")
+    }
+
+  })
 )
 
 
